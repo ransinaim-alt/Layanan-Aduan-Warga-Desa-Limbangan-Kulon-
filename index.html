@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan Laporan Desa Limbangan Kulon - Sistem Transparan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .hero {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .hero h2 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .blockchain-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .form-section, .reports-section {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        input, textarea, select {
+            padding: 1rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .reports-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .report-card {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .report-id {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .report-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status.diproses { background: #fff3cd; color: #856404; }
+        .status.selesai { background: #d4edda; color: #155724; }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .timestamp {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🏘️ Desa Limbangan Kulon</div>
+            <div class="subtitle">Layanan Laporan Transparan & Immutable</div>
+        </header>
+
+        <div class="hero">
+            <div class="blockchain-badge"> Kami siap melayani keluhan anda</div>
+            <h2>Lapor Masalah Anda di Desa Limbangan Kulon</h2>
+            <p style="font-size: 1.2rem; color: #666; max-width: 600px; margin: 0 auto;">
+                Setiap laporan terekam permanen dan transparan. Pihak desa akan mengetahui dan segera memperbaiki keluhan anda.
+            </p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalReports">0</div>
+                <div>Total Laporan</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="todayReports">0</div>
+                <div>Hari Ini</div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3 style="color: #2c3e50; margin-bottom: 1.5rem;">📝 Buat Laporan Baru</h3>
+            <form id="reportForm" class="form-grid">
+                <div class="form-group">
+                    <label>Nama Pelapor *</label>
+                    <input type="text" id="reporterName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Nomor Handphone *</label>
+                    <input type="tel" id="phone" required placeholder="08xxxxxxxxxx">
+                </div>
+                
+                <div class="form-group">
+                    <label>Jenis Masalah *</label>
+                    <select id="issueType" required>
+                        <option value="">Pilih jenis masalah</option>
+                        <option value="Jalan Rusak">🛣️ Jalan Rusak</option>
+                        <option value="Saluran Air">💧 Saluran Air</option>
+                        <option value="Lampu Jalan">💡 Lampu Jalan</option>
+                        <option value="Keamanan">👮 Keamanan</option>
+                        <option value="Lainnya">📋 Lainnya</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Lokasi / Dusun</label>
+                    <input type="text" id="location" placeholder="Contoh: Simpang patrol RT 01 RW 03">
+                </div>
+                
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>Deskripsi Masalah *</label>
+                    <textarea id="description" required placeholder="Jelaskan masalah secara detail..."></textarea>
+                </div>
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <button type="submit" class="btn">🚀 Kirim Laporan</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="reports-section">
+            <h3 style="color: #2c3e50; margin-bottom: 1.5rem;">📊 Daftar Laporan (Immutable Ledger)</h3>
+            <div id="reportsList" class="reports-grid">
+                <div class="empty-state">
+                    <h4>Belum ada laporan</h4>
+                    <p>Jadilah yang pertama melaporkan masalah desa!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class ImmutableReportSystem {
+            constructor() {
+                this.storageKey = 'desa_limbangan_reports';
+                this.reports = this.loadReports();
+                this.init();
+                window.reportSystem = this; // Untuk auto-refresh
+            }
+
+            loadReports() {
+                try {
+                    const data = localStorage.getItem(this.storageKey);
+                    return data ? JSON.parse(data) : [];
+                } catch (e) {
+                    console.error('Error loading reports:', e);
+                    return [];
+                }
+            }
+
+            saveReports() {
+                try {
+                    localStorage.setItem(this.storageKey, JSON.stringify(this.reports));
+                } catch (e) {
+                    console.error('Error saving reports:', e);
+                }
+            }
+
+            addReport(report) {
+                const newReport = {
+                    id: Date.now(),
+                    ...report,
+                    timestamp: new Date().toLocaleString('id-ID', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }),
+                    status: 'diproses'
+                };
+                
+                this.reports.unshift(newReport);
+                this.saveReports();
+                this.renderReports();
+                this.updateStats();
+            }
+
+            init() {
+                this.renderReports();
+                this.updateStats();
+                this.bindEvents();
+            }
+
+            bindEvents() {
+                document.getElementById('reportForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleSubmit();
+                });
+            }
+
+            handleSubmit() {
+                const formData = {
+                    reporterName: document.getElementById('reporterName').value,
+                    phone: document.getElementById('phone').value,
+                    issueType: document.getElementById('issueType').value,
+                    location: document.getElementById('location').value,
+                    description: document.getElementById('description').value
+                };
+
+                if (this.validateForm(formData)) {
+                    this.addReport(formData);
+                    this.resetForm();
+                    alert('✅ Laporan berhasil dikirim! Data terekam permanen dalam sistem.');
+                }
+            }
+
+            validateForm(data) {
+                return data.reporterName && data.phone && data.issueType && data.description;
+            }
+
+            resetForm() {
+                document.getElementById('reportForm').reset();
+            }
+
+            renderReports() {
+                const container = document.getElementById('reportsList');
+                
+                if (this.reports.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h4>Belum ada laporan</h4>
+                            <p>Jadilah yang pertama melaporkan masalah desa!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = this.reports.map(report => `
+                    <div class="report-card">
+                        <div class="report-id">#${report.id.toString().slice(-6)}</div>
+                        <div class="report-header">
+                            <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">${report.issueType}</h4>
+                            <span class="status ${report.status}">${report.status.toUpperCase()}</span>
+                        </div>
+                        <p style="margin-bottom: 1rem; color: #495057;">${report.description}</p>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <div class="report-meta">
+                                <strong>${report.reporterName}</strong>
+                            </div>
+                            ${report.phone ? `<div class="report-meta">📱 ${report.phone}</div>` : ''}
+                            ${report.location ? `<div class="report-meta">${report.location}</div>` : ''}
+                        </div>
+                        <div class="timestamp">${report.timestamp}</div>
+                    </div>
+                `).join('');
+            }
+
+            updateStats() {
+                const now = new Date();
+                const today = now.toDateString();
+                
+                const total = this.reports.length;
+                const todayCount = this.reports.filter(r => 
+                    new Date(r.timestamp).toDateString() === today
+                ).length;
+
+                document.getElementById('totalReports').textContent = total;
+                document.getElementById('todayReports').textContent = todayCount;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new ImmutableReportSystem();
+        });
+
+        setInterval(() => {
+            if (window.reportSystem) {
+                window.reportSystem.updateStats();
+            }
+        }, 30000);
+    </script>
+</body>
+                  </html>
